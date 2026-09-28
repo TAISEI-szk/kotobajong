@@ -4,13 +4,13 @@
   const $ = id => document.getElementById(id);
   const board = $('board');
   const status = $('status');
-  const state = { mode: 'mix', positions: core.POSITIONS, tiles: [], selected: null, history: [], score: 0, hints: 3, elapsed: 0, started: false, completed: false, interval: null, spokenWord: '' };
+  const state = { course: 'ngsl', mode: 'mix', positions: core.POSITIONS, tiles: [], selected: null, history: [], score: 0, hints: 3, elapsed: 0, started: false, completed: false, interval: null, spokenWord: '' };
 
   function formatTime(seconds) {
     return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
   }
 
-  function bestKey() { return `kotobajong-best-${state.mode}`; }
+  function bestKey() { return `kotobajong-best-${state.course}-${state.mode}`; }
   function updateStats() {
     $('remaining').textContent = String(state.tiles.filter(t => !t.removed).length / 2);
     $('timer').textContent = formatTime(state.elapsed);
@@ -28,7 +28,7 @@
   }
 
   function wordPairs() {
-    const raw = window.KOTOBA_WORDS;
+    const raw = window.KOTOBA_COURSES[state.course];
     const toPair = (entry, type, index) => ({ id: `${type}-${index}`, type, words: entry.slice(0, 2), meaning: entry[2], example: entry[3] });
     const translations = core.shuffle(raw.translation.map((e, i) => toPair(e, 'translation', i)));
     const synonyms = core.shuffle(raw.synonym.map((e, i) => toPair(e, 'synonym', i)));
@@ -238,6 +238,10 @@
     startGame();
   }));
   document.querySelectorAll('.mode-button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === state.mode)));
+  $('course-select').addEventListener('change', event => {
+    state.course = event.target.value;
+    startGame();
+  });
   $('hint-button').addEventListener('click', hint);
   $('undo-button').addEventListener('click', undo);
   $('shuffle-button').addEventListener('click', redeal);

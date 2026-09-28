@@ -1,0 +1,63 @@
+.panel-header{align-items:center;justify-content:space-between}
+.course-heading{margin-right:auto}
+.course-select-label{display:grid;gap:3px;color:#71877d;font-size:10px;font-weight:900;white-space:nowrap}
+.course-select-label select{min-width:164px;border:1px solid #d4ddd0;border-radius:9px;background:#f8f8ef;color:#23473c;padding:8px;font:800 12px 'Nunito Sans','Noto Sans JP',sans-serif}
+.learning-strip{margin:0 29px 18px;min-height:72px;padding:12px 16px}
+.learning-strip p{line-height:1.35}
+@media(max-width:700px){
+  html,body{height:100%;overflow:hidden}
+  .app-shell{height:100vh;height:100dvh;max-width:none;padding:0 7px;display:flex;flex-direction:column;overflow:hidden}
+  .topbar{height:42px;min-height:42px;border:0;padding:0 5px}
+  .brand-mark{width:30px;height:30px;border-radius:8px;font-size:16px;box-shadow:0 2px 0 #aebfb2}
+  .brand-copy strong{font-size:16px}
+  .eyebrow{font-size:7px}
+  .text-button{font-size:11px;padding:7px 2px}
+  main{flex:1;min-height:0;display:flex}
+  .intro,footer{display:none}
+  .game-panel{flex:1;min-height:0;display:flex;flex-direction:column;border-radius:14px}
+  .panel-header{padding:5px 7px 4px;display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center}
+  .course-heading{display:none}
+  .course-select-label{grid-column:1;grid-row:1;font-size:8px;gap:1px}
+  .course-select-label select{width:100%;min-width:0;height:29px;padding:3px 6px;font-size:11px}
+  .mode-switch{grid-column:2;grid-row:1;margin:0;padding:2px;border-radius:8px}
+  .mode-button{padding:6px 7px;border-radius:6px;font-size:10px}
+  .stats-row{flex:none;margin:0 7px 4px;border-radius:8px}
+  .stat{padding:3px 6px;gap:0}
+  .stat>span{font-size:8px}
+  .stat strong{font-size:13px}
+  .stat small{font-size:9px}
+  .learning-strip{order:0;flex:none;min-height:59px;margin:0 7px 4px;padding:5px 7px;gap:6px;border-radius:9px}
+  .learning-icon{display:none}
+  .learning-strip .section-kicker{font-size:8px;margin:0;color:#a26a37}
+  .learning-strip p{font-size:10px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .speak-button{font-size:10px;padding:5px;white-space:nowrap}
+  .board-wrap{flex:1;min-height:0;padding:2px 1px 1px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+  .board-topline{display:none}
+  .board[data-cols="4"]{--gap-x:5px;--gap-y:4px;--tile-w:min(91px,calc((100vw - 51px)/4));--tile-h:clamp(32px,calc((100dvh - 300px)/6),62px);width:calc(4 * var(--tile-w) + 3 * var(--gap-x) + 16px);height:calc(6 * var(--tile-h) + 5 * var(--gap-y) + 17px);margin:12px auto 0;flex:none}
+  .tile{padding:11px 2px 6px;border-radius:7px;box-shadow:0 2px 0 #d7c9ac,2px 5px 0 #a89d83,3px 8px 10px #061c18a6}
+  .tile.layer-1,.tile.layer-2,.tile.covered,.tile.layer-1.covered{box-shadow:0 2px 0 #d0b882,2px 5px 0 #917248,3px 8px 10px #061c18a6}
+  .tile-kind{top:2px;left:4px;font-size:7px}
+  .tile-floor{top:2px;right:3px;padding:0 2px;font-size:7px}
+  .tile-text,.tile.jp .tile-text{font-size:clamp(9px,2.55vw,12px);line-height:1.05}
+  .tile-stack{bottom:2px;left:3px;font-size:8px}
+  .tile-ornament{bottom:2px;right:3px;font-size:6px}
+  .status{flex:none;min-height:19px;padding:2px 3px;font-size:10px;line-height:1.2}
+  .toolbar{flex:none;position:static;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;padding:4px 4px calc(4px + env(safe-area-inset-bottom));box-shadow:none}
+  .action-button{min-height:34px;padding:3px 0;font-size:9px;border-radius:7px;white-space:nowrap}
+  .action-button>span:first-child{font-size:11px;margin-right:0}
+  .action-count{margin-left:2px;padding:1px 3px}
+}
+@media(max-width:360px){
+  .best-stat{display:none}
+  .stats-row{grid-template-columns:repeat(3,1fr)}
+  .mode-button{padding:6px 4px}
+  .board[data-cols="4"]{--tile-w:calc((100vw - 49px)/4)}
+}
+@media(max-height:620px) and (max-width:700px){
+  .topbar{height:35px;min-height:35px}
+  .learning-strip{min-height:48px}
+  .learning-strip p{-webkit-line-clamp:2}
+  .board[data-cols="4"]{margin-top:8px}
+  .toolbar{padding-top:2px}
+  .action-button{min-height:30px}
+}

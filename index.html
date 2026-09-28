@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#102724">
   <title>ことば雀 | 英単語ペアゲーム</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="layout.css">
 </head>
 <body>
   <div class="app-shell">
@@ -23,7 +24,14 @@
 
       <section class="game-panel" aria-label="ゲーム">
         <div class="panel-header">
-          <div><p class="section-kicker">CHOOSE A COURSE</p><h2>今日の一局</h2></div>
+          <div class="course-heading"><p class="section-kicker">CHOOSE A COURSE</p><h2>今日の一局</h2></div>
+          <label class="course-select-label" for="course-select">単語コース
+            <select id="course-select">
+              <option value="ngsl">日常英語 · NGSL</option>
+              <option value="tsl">ビジネス · TSL</option>
+              <option value="nawl">学術英語 · NAWL</option>
+            </select>
+          </label>
           <div class="mode-switch" role="group" aria-label="出題モード">
             <button class="mode-button active" data-mode="mix" type="button">ミックス</button>
             <button class="mode-button" data-mode="translation" type="button">日英</button>
@@ -37,6 +45,12 @@
           <div class="stat"><span>スコア</span><strong id="score">0</strong></div>
           <div class="stat best-stat"><span>自己ベスト</span><strong id="best">—</strong></div>
         </div>
+
+        <section class="learning-strip" aria-label="学習メモ">
+          <div class="learning-icon" aria-hidden="true">✦</div>
+          <div><span class="section-kicker">WORD NOTE</span><p id="word-note">ペアがそろうと、ここに単語の学習メモが表示されます。</p></div>
+          <button id="speak-button" class="speak-button" type="button" aria-label="英単語を読み上げる" disabled>♪ 発音</button>
+        </section>
 
         <div class="board-wrap">
           <div class="board-topline"><span><i class="legend-dot available"></i> 明るいカードは選べる</span><span><i class="legend-dot covered"></i> 暗いカードは選べない</span></div>
@@ -52,11 +66,6 @@
         </div>
       </section>
 
-      <section class="learning-strip" aria-label="学習メモ">
-        <div class="learning-icon" aria-hidden="true">✦</div>
-        <div><span class="section-kicker">WORD NOTE</span><p id="word-note">ペアがそろうと、ここに単語の学習メモが表示されます。</p></div>
-        <button id="speak-button" class="speak-button" type="button" aria-label="英単語を読み上げる" disabled>♪ 発音</button>
-      </section>
     </main>
     <footer>ことば雀 <span>·</span> あそびながら、少しずつ語彙を増やそう。</footer>
   </div>
