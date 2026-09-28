@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102724">
+  <title>ことば雀 | 英単語ペアゲーム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">語</div>
+      <div class="brand-copy"><span class="eyebrow">WORD MATCH SOLITAIRE</span><strong>ことば雀</strong></div>
+      <button id="rules-button" class="text-button" type="button">遊び方 <span aria-hidden="true">↗</span></button>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div><p class="section-kicker">ENGLISH × JAPANESE</p><h1>つながる言葉を、<br><em>見つけよう。</em></h1><p class="intro-note">重なったカードから、意味が合う２枚を探す英単語ゲーム。</p></div>
+        <div class="intro-art" aria-hidden="true"><span class="art-card art-one">bright</span><span class="art-card art-two">明るい</span><span class="art-card art-three">✨</span></div>
+      </section>
+
+      <section class="game-panel" aria-label="ゲーム">
+        <div class="panel-header">
+          <div><p class="section-kicker">CHOOSE A COURSE</p><h2>今日の一局</h2></div>
+          <div class="mode-switch" role="group" aria-label="出題モード">
+            <button class="mode-button active" data-mode="mix" type="button">ミックス</button>
+            <button class="mode-button" data-mode="translation" type="button">日英</button>
+            <button class="mode-button" data-mode="synonym" type="button">英英</button>
+          </div>
+        </div>
+
+        <div class="stats-row" aria-label="進行状況">
+          <div class="stat"><span>残り</span><strong><span id="remaining">18</span><small>ペア</small></strong></div>
+          <div class="stat"><span>時間</span><strong id="timer">00:00</strong></div>
+          <div class="stat"><span>スコア</span><strong id="score">0</strong></div>
+          <div class="stat best-stat"><span>自己ベスト</span><strong id="best">—</strong></div>
+        </div>
+
+        <div class="board-wrap">
+          <div class="board-topline"><span><i class="legend-dot available"></i> 明るいカードは選べる</span><span><i class="legend-dot covered"></i> 暗いカードは選べない</span></div>
+          <div id="board" class="board" aria-label="単語カードの盤面"></div>
+          <div id="status" class="status" role="status" aria-live="polite">カードを２枚選んで、ペアを見つけましょう。</div>
+        </div>
+
+        <div class="toolbar">
+          <button id="hint-button" class="action-button" type="button"><span aria-hidden="true">✦</span> ヒント <span id="hints-left" class="action-count">3</span></button>
+          <button id="undo-button" class="action-button" type="button" disabled><span aria-hidden="true">↶</span> 戻す</button>
+          <button id="shuffle-button" class="action-button" type="button"><span aria-hidden="true">⤨</span> 並べ替え</button>
+          <button id="new-button" class="action-button primary" type="button"><span aria-hidden="true">↻</span> 新しいゲーム</button>
+        </div>
+      </section>
+
+      <section class="learning-strip" aria-label="学習メモ">
+        <div class="learning-icon" aria-hidden="true">✦</div>
+        <div><span class="section-kicker">WORD NOTE</span><p id="word-note">ペアがそろうと、ここに単語の学習メモが表示されます。</p></div>
+        <button id="speak-button" class="speak-button" type="button" aria-label="英単語を読み上げる" disabled>♪ 発音</button>
+      </section>
+    </main>
+    <footer>ことば雀 <span>·</span> あそびながら、少しずつ語彙を増やそう。</footer>
+  </div>
+
+  <dialog id="rules-dialog" class="modal"><div class="modal-content"><button class="close-button" data-close="rules-dialog" aria-label="閉じる" type="button">×</button><p class="section-kicker">HOW TO PLAY</p><h2>遊び方</h2><ol><li>カードは<strong>下段・中段・上段</strong>の３段です。「↓ ２枚」は、その下にカードが２枚ある印です。</li><li><strong>選べるカード</strong>は、上にカードがなく、同じ段の左右どちらかが空いているカードです。</li><li><strong>日英</strong>では英単語と日本語訳、<strong>英英</strong>では意味が近い英単語をペアにします。</li><li>ペアを消すと下のカードが現れます。すべて消せたらクリアです。</li></ol><p class="modal-tip">困ったら「ヒント」や「並べ替え」を使えます。並べ替え後も必ずクリアできる配置になります。</p><button class="modal-main" data-close="rules-dialog" type="button">ゲームに戻る</button></div></dialog>
+  <dialog id="win-dialog" class="modal"><div class="modal-content win-content"><div class="win-symbol" aria-hidden="true">✦</div><p class="section-kicker">BOARD CLEARED</p><h2>お見事！</h2><p>すべての言葉をつなげました。</p><div class="win-summary"><span>クリアタイム <strong id="win-time">00:00</strong></span><span>スコア <strong id="win-score">0</strong></span></div><button id="play-again-button" class="modal-main" type="button">もう一局あそぶ</button></div></dialog>
+
+  <script src="words.js"></script>
+  <script src="core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
