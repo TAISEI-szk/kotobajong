@@ -13,6 +13,8 @@
     <header class="topbar">
       <div class="brand-mark" aria-hidden="true">語</div>
       <div class="brand-copy"><span class="eyebrow">WORD MATCH SOLITAIRE</span><strong>ことば雀</strong></div>
+      <button id="import-button" class="text-button import-button" type="button">CSV読込</button>
+      <input id="personal-file" class="visually-hidden" type="file" accept=".csv,text/csv" aria-label="個人の単語リストCSVを選択">
       <button id="rules-button" class="text-button" type="button">遊び方 <span aria-hidden="true">↗</span></button>
     </header>
 
@@ -30,6 +32,7 @@
               <option value="ngsl">日常英語 · NGSL</option>
               <option value="tsl">TOEIC対策 · TSL</option>
               <option value="nawl">学術英語 · NAWL</option>
+              <option value="personal">個人の単語集 · CSV</option>
             </select>
           </label>
           <div class="mode-switch" role="group" aria-label="出題モード">
@@ -75,6 +78,7 @@
 
   <script src="words.js"></script>
   <script src="core.js"></script>
+  <script src="personal-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

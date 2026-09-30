@@ -4,7 +4,14 @@
   const $ = id => document.getElementById(id);
   const board = $('board');
   const status = $('status');
+  const personalStorageKey = 'kotobajong-personal-words-v1';
+  let personalRows = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem(personalStorageKey) || '[]');
+    if (Array.isArray(saved) && saved.length >= 18) personalRows = saved;
+  } catch (_) { /* Storage may be unavailable. */ }
   const state = { course: 'ngsl', mode: 'mix', positions: core.POSITIONS, tiles: [], selected: null, history: [], score: 0, hints: 3, elapsed: 0, started: false, completed: false, interval: null, spokenWord: '' };
+  if (personalRows.length) state.course = 'personal';
 
   function formatTime(seconds) {
     return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
@@ -28,6 +35,7 @@
   }
 
   function wordPairs() {
+    if (state.course === 'personal') return window.KotobaPersonal.buildPairs(personalRows, state.mode);
     const raw = window.KOTOBA_COURSES[state.course];
     const toPair = (entry, type, index) => ({ id: `${type}-${index}`, type, words: entry.slice(0, 2), meaning: entry[2], example: entry[3] });
     const translations = core.shuffle(raw.translation.map((e, i) => toPair(e, 'translation', i)));
@@ -65,7 +73,7 @@
     const assignments = core.deal(state.positions.map(p => p.id), pairs, Math.random, state.positions);
     state.tiles = state.positions.map(position => ({ ...position, ...assignments.get(position.id), removed: false }));
     render();
-    say('カードを２枚選んで、ペアを見つけましょう。');
+    say(state.course === 'personal' ? `個人の単語集（${personalRows.length}語）から毎回ランダムに出題します。` : 'カードを２枚選んで、ペアを見つけましょう。');
   }
 
   function beginTimer() {
@@ -120,7 +128,8 @@
 
   function note(pair) {
     const [first, second] = pair.words;
-    $('word-note').textContent = `${first}  ↔  ${second} ｜ ${pair.meaning}。例：${pair.example}`;
+    const source = pair.number ? ` ｜ No.${pair.number}${pair.reviewStatus === 'checked' ? '' : '・OCR未校正'}` : '';
+    $('word-note').textContent = `${first}  ↔  ${second} ｜ ${pair.meaning}${pair.example ? `。例：${pair.example}` : ''}${source}`;
     state.spokenWord = first;
     $('speak-button').disabled = !('speechSynthesis' in window);
   }
@@ -239,8 +248,33 @@
   }));
   document.querySelectorAll('.mode-button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === state.mode)));
   $('course-select').addEventListener('change', event => {
+    if (event.target.value === 'personal' && !personalRows.length) {
+      event.target.value = state.course;
+      $('personal-file').click();
+      return;
+    }
     state.course = event.target.value;
     startGame();
+  });
+  $('import-button').addEventListener('click', () => $('personal-file').click());
+  $('personal-file').addEventListener('change', async event => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      const rows = window.KotobaPersonal.parseCsv(await file.text());
+      window.KotobaPersonal.buildPairs(rows, 'mix');
+      personalRows = rows;
+      state.course = 'personal';
+      $('course-select').value = 'personal';
+      let saved = true;
+      try { localStorage.setItem(personalStorageKey, JSON.stringify(rows)); } catch (_) { saved = false; }
+      startGame();
+      say(saved ? `${rows.length}語をこの端末に保存しました。毎回ランダムに出題します。` : `${rows.length}語を読み込みました。この端末に保存できなかったため、次回は再読込してください。`);
+    } catch (error) {
+      say(error.message || 'CSVの読み込みに失敗しました。', true);
+    } finally {
+      event.target.value = '';
+    }
   });
   $('hint-button').addEventListener('click', hint);
   $('undo-button').addEventListener('click', undo);
@@ -258,5 +292,6 @@
     speechSynthesis.speak(utterance);
   });
   window.addEventListener('resize', fitBoardToViewport);
+  $('course-select').value = state.course;
   startGame();
 })();
