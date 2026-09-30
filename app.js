@@ -36,6 +36,7 @@
 
   function wordPairs() {
     if (state.course === 'personal') return window.KotobaPersonal.buildPairs(personalRows, state.mode);
+    if (state.course === 'ielts') return window.KotobaPersonal.buildPairs(window.KOTOBA_IELTS_ROWS, state.mode);
     const raw = window.KOTOBA_COURSES[state.course];
     const toPair = (entry, type, index) => ({ id: `${type}-${index}`, type, words: entry.slice(0, 2), meaning: entry[2], example: entry[3] });
     const translations = core.shuffle(raw.translation.map((e, i) => toPair(e, 'translation', i)));
@@ -73,7 +74,11 @@
     const assignments = core.deal(state.positions.map(p => p.id), pairs, Math.random, state.positions);
     state.tiles = state.positions.map(position => ({ ...position, ...assignments.get(position.id), removed: false }));
     render();
-    say(state.course === 'personal' ? `個人の単語集（${personalRows.length}語）から毎回ランダムに出題します。` : 'カードを２枚選んで、ペアを見つけましょう。');
+    const messages = {
+      personal: `個人の単語集（${personalRows.length}語）から毎回ランダムに出題します。`,
+      ielts: `IELTS単語帳（${window.KOTOBA_IELTS_ROWS.length}語）から毎回ランダムに出題します。`
+    };
+    say(messages[state.course] || 'カードを２枚選んで、ペアを見つけましょう。');
   }
 
   function beginTimer() {
