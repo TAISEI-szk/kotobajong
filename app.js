@@ -133,8 +133,7 @@
 
   function note(pair) {
     const [first, second] = pair.words;
-    const source = pair.number ? ` ｜ No.${pair.number}${pair.reviewStatus === 'checked' ? '' : '・OCR未校正'}` : '';
-    $('word-note').textContent = `${first}  ↔  ${second} ｜ ${pair.meaning}${pair.example ? `。例：${pair.example}` : ''}${source}`;
+    $('word-note').textContent = `${first}  ↔  ${second} ｜ ${pair.meaning}${pair.example ? `。例：${pair.example}` : ''}`;
     state.spokenWord = first;
     $('speak-button').disabled = !('speechSynthesis' in window);
   }
